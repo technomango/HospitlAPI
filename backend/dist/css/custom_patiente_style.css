@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@media (min-width: 768px) {
+    .col-bill-5 {
+        width: 33.333333%;
+        flex: 0 0 auto;
+    }
+}
+.pt10 {
+    padding-top: 10px !important;
+}
+
+.skin-blue .wrapper {
+    background-color: #edeff5;
+}
+
+.skin-blue .main-sidebar {
+    background-color: #ffffff;
+}
+
+.table2 td span {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.invtext {
+    background: #ffffff;
+    color: #6d6d6d;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 6px 6px 0px 0px;
+}
+
+.g-3, .gy-3 {
+    margin-right: 20px !important;
+  margin-left: 20px !important;
+}
+
+.text-4 {
+    font-size: 1.125rem !important;
+}
+
+.lh-base {
+    line-height: 1.5 !important;
+}
+
+
+.mb-1 {
+    margin-bottom: 0.25rem !important;
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.bg-light {
+    --bs-bg-opacity: 1;
+	    --bs-light-rgb: 248, 249, 250;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+.text-end {
+    text-align: right !important;
+}
+
+.text-black-50 {
+    --bs-text-opacity: 1;
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.lh-1 {
+    line-height: 1 !important;
+}
+
+.my-2 {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
