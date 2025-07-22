@@ -62,15 +62,12 @@
                                                 <label>
                                             <?php echo $this->lang->line('medicine_category'); ?></label> 
                                             <select class="form-control select2 medicine_category" style="width: 100%" name='medicine_cat_1'>
-                                            <option value="<?php echo set_value('medicine_category_id'); ?>"><?php echo $this->lang->line('select'); ?>
-                                                    </option>
-                                            <?php
-                                            foreach ($medicineCategory as $dkey => $dvalue) {
-                                            ?>
-                                            <option value="<?php echo $dvalue["id"]; ?>"><?php echo $dvalue["medicine_category"] ?>
-                                                        </option>   
-                                                    <?php } ?>
-                                                </select>
+                                             <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                            <div>
+                                                <label><?php echo $this->lang->line('expiry_date'); ?></label>
+                                                <input type="date" name="expiry_1" class="form-control" />
+                                            </div>
+                                        </div>
                                             </div>
                                         </div>                      
                                         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
@@ -80,6 +77,12 @@
                                                     <option value=""><?php echo $this->lang->line('select');?></option>
                                                 </select>
                                                 <div id="suggesstion-box0"><small id="stock_info_1"> </small></div>
+                                            </div>
+                                        </div>
+										 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                            <div>
+                                                <label><?php echo $this->lang->line('expiry_date'); ?></label>
+                                                <input type="date" name="expiry_1" class="form-control" />
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
@@ -149,11 +152,9 @@
                                 <div class="form-group">
                                     <label><?php echo $this->lang->line('footer_note'); ?></label> 
                                     <textarea style="height:50px" rows="1" name="footer_note" class="form-control" id="compose-textareass"></textarea>
-                                </div> 
-                            </div>
-                        </div>
-                    </div> 
-                </div>
+                                  </div>
+    </div>
+</div>
 
                 <div class="col-sm-3">
                     <div class="ptt10">
@@ -206,3 +207,49 @@
                 </div>
             </div>
         </div> 
+<script type="text/javascript">
+    var base_url = '<?php echo base_url() ?>';
+    var prescIndex = 1;
+    function loadCategories(el){
+        $.getJSON(base_url + 'admin/externalpharmacy/categories', function(res){
+            var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
+            $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
+            el.html(opt).trigger('change');
+        });
+    }
+    function loadItems(cat, el){
+        if(!cat){ el.html('<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>'); return; }
+        $.getJSON(base_url + 'admin/externalpharmacy/items?category_id='+cat, function(res){
+            var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
+            $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
+            el.html(opt);
+        });
+    }
+    $(document).ready(function(){
+        loadCategories($('.medicine_category'));
+        $('.medicine_category').on('change', function(){
+            loadItems($(this).val(), $(this).closest('tr').find('.medicine_name'));
+        });
+        $('.add-record').on('click', function(){
+            prescIndex++;
+            var row = $('#row1').clone();
+            row.attr('id','row'+prescIndex);
+            row.find('[name="medicine_cat_1"]').attr('name','medicine_cat_'+prescIndex);
+            row.find('[name="medicine_1"]').attr('name','medicine_'+prescIndex).empty();
+            row.find('[name="dosage_1"]').attr('name','dosage_'+prescIndex).empty();
+            row.find('[name="interval_dosage_1"]').attr('name','interval_dosage_'+prescIndex);
+            row.find('[name="duration_dosage_1"]').attr('name','duration_dosage_'+prescIndex);
+            row.find('[name="instruction_1"]').attr('name','instruction_'+prescIndex).val('');
+            row.find('[name="expiry_1"]').attr('name','expiry_'+prescIndex).val('');
+            row.find('.delete_row').attr('data-row-id',prescIndex);
+            row.find('input[name="rows[]"]').val(prescIndex);
+            $('#tableID').append(row);
+            row.find('.select2').select2();
+            loadCategories(row.find('.medicine_category'));
+        });
+        $(document).on('click','.delete_row',function(){
+            var id=$(this).data('row-id');
+            $('#row'+id).remove();
+        });
+    });
+</script>
