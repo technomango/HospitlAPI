@@ -79,7 +79,7 @@
                                                 <div id="suggesstion-box0"><small id="stock_info_1"> </small></div>
                                             </div>
                                         </div>
-										 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                             <div>
                                                 <label><?php echo $this->lang->line('expiry_date'); ?></label>
                                                 <input type="date" name="expiry_1" class="form-control" />
@@ -222,12 +222,12 @@
         $.getJSON(base_url + 'admin/externalpharmacy/items?category_id='+cat, function(res){
             var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
             $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
-            el.html(opt);
+           el.html(opt).trigger('change');
         });
     }
     $(document).ready(function(){
         loadCategories($('.medicine_category'));
-        $('.medicine_category').on('change', function(){
+        $(document).on('change','.medicine_category',function(){
             loadItems($(this).val(), $(this).closest('tr').find('.medicine_name'));
         });
         $('.add-record').on('click', function(){
