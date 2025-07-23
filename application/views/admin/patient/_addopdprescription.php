@@ -79,7 +79,7 @@
                                                 <div id="suggesstion-box0"><small id="stock_info_1"> </small></div>
                                             </div>
                                         </div>
-                                         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+										 <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6">
                                             <div>
                                                 <label><?php echo $this->lang->line('expiry_date'); ?></label>
                                                 <input type="date" name="expiry_1" class="form-control" />
@@ -214,15 +214,20 @@
         $.getJSON(base_url + 'admin/externalpharmacy/categories', function(res){
             var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
             $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
-            el.html(opt).trigger('change');
+             el.each(function(){
+                $(this).select2('destroy').html(opt).val('').select2();
+            });
         });
     }
     function loadItems(cat, el){
-        if(!cat){ el.html('<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>'); return; }
+        if(!cat){
+            el.select2('destroy').html('<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>').val('').select2();
+            return;
+        }
         $.getJSON(base_url + 'admin/externalpharmacy/items?category_id='+cat, function(res){
             var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
             $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
-           el.html(opt).trigger('change');
+           el.select2('destroy').html(opt).val('').select2();
         });
     }
     $(document).ready(function(){
