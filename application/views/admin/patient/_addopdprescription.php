@@ -208,26 +208,37 @@
             </div>
         </div> 
 <script type="text/javascript">
-    var base_url = '<?php echo base_url() ?>';
+    var base_url = '<?php echo site_url(); ?>';
     var prescIndex = 1;
     function loadCategories(el){
-        $.getJSON(base_url + 'admin/externalpharmacy/categories', function(res){
-            var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
-            $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
-             el.each(function(){
-                $(this).select2('destroy').html(opt).val('').select2();
-            });
+        $.ajax({
+            url: base_url + 'admin/externalpharmacy/categories',
+            dataType: 'json',
+            cache: false,
+            success: function(res){
+                var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
+                $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
+                el.each(function(){
+                    $(this).select2('destroy').html(opt).val('').select2({width:'resolve'});
+                });
+            }
         });
     }
-     function loadItems(cat, el){
+    function loadItems(cat, el){
         if(!cat){
-            el.select2('destroy').html('<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>').val('').select2();
+            el.select2('destroy').html('<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>').val('').select2({width:'resolve'});
             return;
         }
-        $.getJSON(base_url + 'admin/externalpharmacy/items?category_id='+cat, function(res){
-            var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
-            $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
-            el.select2('destroy').html(opt).val('').select2();
+        $.ajax({
+            url: base_url + 'admin/externalpharmacy/items',
+            dataType: 'json',
+            cache: false,
+            data:{category_id:cat},
+            success: function(res){
+                var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
+                $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
+                el.select2('destroy').html(opt).val('').select2({width:'resolve'});
+            }
         });
     }
     $(document).ready(function(){
