@@ -239,7 +239,12 @@
             prescIndex++;
             var row = $('#row1').clone();
             row.attr('id','row'+prescIndex);
-            row.find('[name="medicine_cat_1"]').attr('name','medicine_cat_'+prescIndex);
+            row.find('select').each(function(){
+                $(this).select2('destroy');
+                $(this).removeAttr('data-select2-id').removeClass('select2-hidden-accessible');
+                $(this).next('.select2').remove();
+            });
+            row.find('[name="medicine_cat_1"]').attr('name','medicine_cat_'+prescIndex).val('');
             row.find('[name="medicine_1"]').attr({'name':'medicine_'+prescIndex,'data-rowid':prescIndex}).empty();
             row.find('[name="dosage_1"]').attr('name','dosage_'+prescIndex).empty();
             row.find('[name="interval_dosage_1"]').attr('name','interval_dosage_'+prescIndex);
