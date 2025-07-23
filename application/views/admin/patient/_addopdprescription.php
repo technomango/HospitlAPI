@@ -219,7 +219,7 @@
             });
         });
     }
-    function loadItems(cat, el){
+     function loadItems(cat, el){
         if(!cat){
             el.select2('destroy').html('<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>').val('').select2();
             return;
@@ -227,12 +227,12 @@
         $.getJSON(base_url + 'admin/externalpharmacy/items?category_id='+cat, function(res){
             var opt = '<option value="">'+"<?php echo $this->lang->line('select'); ?>"+'</option>';
             $.each(res,function(i,c){ opt += '<option value="'+c.id+'">'+c.name+'</option>'; });
-           el.select2('destroy').html(opt).val('').select2();
+            el.select2('destroy').html(opt).val('').select2();
         });
     }
     $(document).ready(function(){
         loadCategories($('.medicine_category'));
-        $(document).on('change','.medicine_category',function(){
+        $(document).on('select2:select change','.medicine_category',function(){
             loadItems($(this).val(), $(this).closest('tr').find('.medicine_name'));
         });
         $('.add-record').on('click', function(){
@@ -240,7 +240,7 @@
             var row = $('#row1').clone();
             row.attr('id','row'+prescIndex);
             row.find('[name="medicine_cat_1"]').attr('name','medicine_cat_'+prescIndex);
-            row.find('[name="medicine_1"]').attr('name','medicine_'+prescIndex).empty();
+            row.find('[name="medicine_1"]').attr({'name':'medicine_'+prescIndex,'data-rowid':prescIndex}).empty();
             row.find('[name="dosage_1"]').attr('name','dosage_'+prescIndex).empty();
             row.find('[name="interval_dosage_1"]').attr('name','interval_dosage_'+prescIndex);
             row.find('[name="duration_dosage_1"]').attr('name','duration_dosage_'+prescIndex);
